@@ -1,0 +1,7 @@
+#!/bin/sh
+cd /home/whiper/android/kernel_test/kernel
+export CROSS_COMPILE=/home/whiper/android-toolchain-eabi-4.9/bin/arm-linux-androideabi-
+export TARGET_PRODUCT=simcom89_wet_jb2 MTK_ROOT_CUSTOM=../mediatek/custom
+export TARGET_BUILD_VARIANT=user
+make clean
+make mrproper

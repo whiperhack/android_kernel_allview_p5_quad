@@ -1,0 +1,52 @@
+#!/bin/sh
+#script compile kernel acer e2 by doha saizo
+#setting build
+cd /home/whiper/android/kernel_test/kernel
+export CROSS_COMPILE=/home/whiper/android-toolchain-eabi-4.9/bin/arm-linux-androideabi-
+export TARGET_PRODUCT=simcom89_wet_jb2 MTK_ROOT_CUSTOM=../mediatek/custom
+export TARGET_BUILD_VARIANT=user
+make -j16
+
+#reduce module
+cd /home/whiper/android/kernel_test/kernel
+export CROSS_COMPILE=/home/whiper/android-toolchain-eabi-4.9/bin/arm-linux-androideabi-
+export TARGET_PRODUCT=simcom89_wet_jb2 MTK_ROOT_CUSTOM=../mediatek/custom
+export TARGET_BUILD_VARIANT=user
+make INSTALL_MOD_STRIP=1 INSTALL_MOD_PATH=./out/$TARGET_PRODUCT/system INSTALL_MOD_DIR=./out/$TARGET_PRODUCT/system android_modules_install
+
+
+#adding 512kb header
+cd /home/whiper/android/kernel_test/mediatek/build/tools
+./mkimage /home/whiper/android/kernel_test/kernel/arch/arm/boot/zImage KERNEL > /home/whiper/android/kernel_test/mtktools/boot.img-kernel.img
+
+#copying modules
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/zram.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/zram.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/ccci.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/ccci.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/ccci_plat.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/ccci_plat.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/devapc.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/devapc.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/devinfo.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/devinfo.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/hid-logitech-dj.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/hid-logitech-dj.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_fm_drv.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_fm_drv.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_hif_sdio.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_hif_sdio.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_stp_bt.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_stp_bt.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_stp_gps.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_stp_gps.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_stp_uart.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_stp_uart.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_stp_wmt.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_stp_wmt.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtk_wmt_wifi.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtk_wmt_wifi.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/mtklfb.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/mtklfb.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/pvrsrvkm.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/pvrsrvkm.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/scsi_tgt.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/scsi_tgt.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/scsi_wait_scan.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/scsi_wait_scan.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/sec.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/sec.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/vcodec_kernel_driver.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/vcodec_kernel_driver.ko
+cp /home/whiper/android/kernel_test/kernel/out/simcom89_wet_jb2/system/lib/modules/wlan_mt6628.ko /home/whiper/android/kernel_test/mtktools/doha/system/lib/modules/wlan_mt6628.ko
+
+#repacking boot
+cd /home/whiper/android/kernel_test/mtktools
+./repack.pl -boot boot.img-kernel.img boot.img-ramdisk /home/whiper/android/kernel_test/mtktools/doha/boot.img
+
+#creating flashable zip
+cd /home/whiper/android/kernel_test/mtktools/doha
+zip -r out .
+mv /home/whiper/android/kernel_test/mtktools/doha/out.zip /home/whiper/android/kernel_test/kernelP5Quad.zip
+

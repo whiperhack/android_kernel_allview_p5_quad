@@ -1,0 +1,6 @@
+Build Command:
+1. Download appropiate compiler
+2. cd kernel source directory
+3. edit "build" and "clean" file with the path to your compiler
+4. ./build - for building
+5. ./clean - for cleaning

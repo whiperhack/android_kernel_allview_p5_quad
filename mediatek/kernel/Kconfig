@@ -1,0 +1,41 @@
+menuconfig MEDIATEK_SOLUTION
+        bool "MediaTek Properitary Configuration"
+        help
+            Check this to enable MediaTek properity configuration.
+
+if MEDIATEK_SOLUTION
+
+choice 
+    bool "System Type"
+
+source "../mediatek/platform/mt6589/kernel/Kconfig/Platform"
+
+endchoice
+
+config MTK_SEC_VIDEO_PATH_SUPPORT
+	bool "Enable MTK Secure Video Path Support"
+	depends on (MTK_IN_HOUSE_TEE_SUPPORT) || (TRUSTONIC_TEE_SUPPORT)
+	default n
+	help
+	  This enable MTK Secure Video Path Support. (depending on MTK In-House TEE Support or Trustonic TEE Support)
+
+source "../mediatek/platform/mt6589/kernel/Kconfig/Kernel"
+source "../mediatek/platform/mt6589/kernel/Kconfig/Board"
+source "../mediatek/platform/mt6589/kernel/Kconfig/Drivers"
+
+endif
+
+config MTK_THERMAL_STATUS_COLLECTION
+        bool "MTK Thermal Status Information Collection"
+        default n
+
+
+config MD32_SUPPORT
+	bool "Specifiy If Platform Support MD32"
+	default n
+
+config MTK_MEMCFG
+       bool "Support enhanced memory configurations"
+       default n
+       help
+

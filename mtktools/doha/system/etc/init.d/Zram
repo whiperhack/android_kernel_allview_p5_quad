@@ -1,0 +1,34 @@
+#!/system/bin/sh
+
+#This Script is for BindassBoost Kernel 
+#change parameters According to your need and paste in init.d folder
+
+#mounting partition
+busybox mount -o remount,noatime,nodiratime,remount,rw,barrier=0,data=writeback /data
+busybox mount -o remount,noatime,nodiratime,remount,rw,barrier=0,data=writeback /cache
+busybox mount -o remount,noatime,nodiratime /dev
+busybox mount -o remount,noatime,nodiratime /proc
+busybox mount -o remount,noatime,nodiratime /sys
+busybox mount -o remount,noatime,nodiratime /system
+
+#####################################
+insmod /system/lib/modules/zram.ko
+# resetting zram
+#
+# setting zram size to 378 mb
+echo 387286400 > /sys/block/zram0/disksize
+#
+# making zram swapable
+mkswap /dev/block/zram0
+#
+# starting swap on zram
+swapon /dev/block/zram0
+#
+# setting low memory killer parameters according to total memory
+echo "700,1200,20500,20600,20600,25800" > /sys/module/lowmemorykiller/parameters/minfree
+#
+# setting swappiness to 100
+echo 100 > /proc/sys/vm/swappiness
+echo 100 > /data/local/devil/swappiness
+#
+# done
