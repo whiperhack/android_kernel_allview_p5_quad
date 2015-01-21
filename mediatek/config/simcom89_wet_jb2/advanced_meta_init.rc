@@ -541,7 +541,8 @@ service dumpstate /system/bin/dumpstate -s
 # MT6620 related services (Begin)
 #
 service 6620_launcher /system/bin/6620_launcher 4000000 /system/etc/firmware/mt6620_patch_hdr.bin
-    user root
+    user system
+    group system
     oneshot
 #
 # MT6620 related services (End)

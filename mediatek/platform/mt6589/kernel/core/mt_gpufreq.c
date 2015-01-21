@@ -57,8 +57,8 @@ static struct early_suspend mt_gpufreq_early_suspend_handler =
 * MT6589 GPU Power Table
 ****************************/
 static struct mt_gpufreq_power_info mt_gpufreqs_golden_power[] = {
-    {.gpufreq_khz = GPU_DVFS_F2, .gpufreq_power = 606},
-    {.gpufreq_khz = GPU_DVFS_F3, .gpufreq_power = 561},
+    {.gpufreq_khz = GPU_DVFS_F2, .gpufreq_power = 761},
+    {.gpufreq_khz = GPU_DVFS_F3, .gpufreq_power = 625},
     {.gpufreq_khz = GPU_DVFS_F5, .gpufreq_power = 456},
     {.gpufreq_khz = GPU_DVFS_F7, .gpufreq_power = 414},
 };
@@ -68,7 +68,7 @@ static struct mt_gpufreq_power_info mt_gpufreqs_golden_power[] = {
 ***************************/
 static int g_gpufreq_dvfs_disable_count = 0;
 
-static unsigned int g_cur_freq = 286000;
+static unsigned int g_cur_freq = 476000;
 static unsigned int g_cur_volt = 0;
 static unsigned int g_cur_load = 0;
  

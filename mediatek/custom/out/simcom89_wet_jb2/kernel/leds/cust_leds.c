@@ -198,7 +198,7 @@ static struct cust_mt65xx_led cust_led_list[MT65XX_LED_TYPE_TOTAL] = {
 #ifdef VANZO_KP_LEDS_SUPPORT
 	{"button-backlight",  MT65XX_LED_MODE_PMIC, MT65XX_LED_PMIC_BUTTON,{0}},
 #else
-	{"button-backlight",  MT65XX_LED_MODE_NONE, -1,{0}},
+	{"button-backlight",  MT65XX_LED_MODE_PMIC, MT65XX_LED_PMIC_BUTTON,{0}},
 #endif
 	{"lcd-backlight",     MT65XX_LED_MODE_CUST_BLS_PWM, (int)disp_set_backlight,{0}},
 };
